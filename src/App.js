@@ -47,16 +47,23 @@ const tempWatchedData = [
   },
 ];
 
-const KEY = "f84fc31d";
 function App() {
   const [movies, setMovies] = useState(tempMovieData); // that 1 data gi malumotlar usestatega olingan
   const [watched, setWatched] = useState(tempWatchedData); // that 2 data gi malumotlar usestatega olingan
   // [yourkey]
+  const KEY = "f84fc31d";
+  const query = "interstellar";
 
   useEffect(() => {
-    fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
-      .then((res) => res.json())
-      .then((data) => setMovies(data.Search));
+    async function fetchMovies() {
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+      );
+      const data = await res.json();
+      setMovies(data.Search);
+      console.log(data.Search);
+    }
+    fetchMovies();
   }, []);
 
   return (
